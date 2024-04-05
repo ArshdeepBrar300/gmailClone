@@ -79,7 +79,7 @@ function Login() {
 
     }
     const loginWithGoogle = () => {
-        window.open(`/auth/google`, '_self')
+        window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
 
     }
 
