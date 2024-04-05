@@ -57,7 +57,7 @@ function Login() {
     const GetUser = async () => {
         try {
          
-            const response = await axios.get("https://itchy-sombrero-seal.cyclic.app/login/success", { withCredentials: true })
+            const response = await axios.get("https://gmailserver-j0ib.onrender.com/login/success", { withCredentials: true })
 
 
             //  LoginService.call({ withCredentials: true })
