@@ -43,7 +43,7 @@ export const saveSentEmails=async(req,res)=>{
 export const getEmails=async(req,res)=>{
 
    
-console.log('emails request');
+console.log('emails request',req.session);
     try {
         let emails
       
