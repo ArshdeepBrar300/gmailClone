@@ -57,7 +57,7 @@ function Login() {
     const GetUser = async () => {
         try {
          
-            const response = await axios.get("https://gmailserver-j0ib.onrender.com/login/success", { withCredentials: true })
+            const response = await axios.get("https://gmailserver-j0ib.onrender.com/login/success")
 
 
             //  LoginService.call({ withCredentials: true })

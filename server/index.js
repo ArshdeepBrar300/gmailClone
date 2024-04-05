@@ -15,9 +15,7 @@ const app=express();
 
 const PORT=process.env.PORT|| 8000;
 const GoogleStrategy=OAuth2Strategy.Strategy;
-app.use(cors({
-    origin: 'https://gmailclone-ng2w.onrender.com', credentials: true
-}))
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(express.json({extended:true}))
 
