@@ -28,7 +28,7 @@ function useApi(urlObject) {
         } catch (error) {
             console.log(urlObject);
 
-            setError(error.message)
+            setError(error)
             console.log('Error calling api to gmail', error.message);
         }
         finally {
