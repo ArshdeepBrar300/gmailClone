@@ -11,7 +11,7 @@ function useApi(urlObject) {
             setError('')
             setLoading(true)
             let res = await API_GMAIL(urlObject, payload, type)
-         
+            console.log(res,res.data);
             if (res.data.emails) {
              
                 setResponse(res.data.emails);
