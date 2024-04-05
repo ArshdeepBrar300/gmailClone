@@ -60,7 +60,7 @@ passport.deserializeUser((user,done)=>{
 app.get("/auth/google",passport.authenticate("google",{scope:["profile","email"]}));
 
 app.get("/auth/google/callback",passport.authenticate("google",{
-    successRedirect:'/login',
+    successRedirect:'https://gmailclone-ng2w.onrender.com/login',
     failureRedirect:"/"
 }
 ))
