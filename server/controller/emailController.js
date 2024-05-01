@@ -6,19 +6,26 @@ import  { updateUser } from './userController.js'
 
 
 export const saveSentEmails=async(req,res)=>{
+    let userData;
+let sessionKeys=(Object.keys(req.sessionStore.sessions))
+sessionKeys.forEach(sessionKey => {
+    const sessionData = JSON.parse(req.sessionStore.sessions[sessionKey]);
+    userData= sessionData.passport?.user || sessionData.user;
+   
+  });
     try {
         const sessionData=req.session
       console.log(sessionData);
       console.log(req);
-        const User = await user.findById(req.user);
+        const User = await user.findById(userData._id);
         
         const email=new Email(req.body)
         email.save();
       
         const emails=User.emails;
         emails.push(email._id);
-        sessionData.passport.user.emails=emails
-        req.session.passport.user.emails=emails
+        // sessionData.passport.user.emails=emails
+        userData.emails=emails
         // console.log(User.emails);
         await User.save();
         req.session.save((err) => {
@@ -116,9 +123,16 @@ export const toggleStarredEmails=async(req,res)=>{
 }
 
 export const deleteEmails=async(req,res)=>{
+    let userData;
+let sessionKeys=(Object.keys(req.sessionStore.sessions))
+sessionKeys.forEach(sessionKey => {
+    const sessionData = JSON.parse(req.sessionStore.sessions[sessionKey]);
+    userData= sessionData.passport?.user || sessionData.user;
+   
+  });
     try {
         await Email.deleteMany({_id:{$in:req.body}});
-        await  user.findOneAndUpdate({_id:req.user.id},{$pull:{emails:{$in:req.body.map(id=>ObjectId(id))}}})
+        await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=>ObjectId(id))}}})
         await updateUser(req);
         
         return res.status(200).json('Email deleted Successfully')

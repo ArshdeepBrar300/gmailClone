@@ -86,7 +86,7 @@ function ComposeMail({ openDialog, setOpenDialog }) {
             body: data.body,
             date: new Date(),
             image: '',
-            name: 'Arshdeep',
+            name: userData.displayName,
             starred: false,
             type: 'drafts'
         }
@@ -128,7 +128,7 @@ function ComposeMail({ openDialog, setOpenDialog }) {
             body: data.body,
             date: new Date(),
             image: '',
-            name: 'Arshdeep',
+            name: userData.displayName,
             starred: false,
             type: 'sent'
         }
