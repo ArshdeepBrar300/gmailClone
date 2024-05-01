@@ -56,20 +56,23 @@ function Login() {
 
     const GetUser = async () => {
         try {
-         
-            const response = await axios.get("https://gmailserver-j0ib.onrender.com/login/success")
+
+            const response = await axios.get(
+                // "https://gmailserver-j0ib.onrender.com/login/success"
+                "http://localhost:8000/login/success"
+            )
 
 
             //  LoginService.call({ withCredentials: true })
 
-       console.log('Getting User Info')
-       console.log(response);
+            console.log('Getting User Info')
+            console.log(response);
             if (response != null) {
                 console.log(response.data);
                 let userData = response.data.user
-                
+
                 dispatch(authLogin({ userData }));
-            
+
                 navigate("/emails/inbox")
             }
 
@@ -79,14 +82,15 @@ function Login() {
 
     }
     const loginWithGoogle = () => {
-        window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
+        `https://gmailserver-j0ib.onrender.com/auth/google`
+        window.open(`http://localhost:8000/auth/google`, '_self')
 
     }
 
 
     useEffect(() => {
         GetUser()
-       
+
     }, [])
 
     return (

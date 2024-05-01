@@ -31,7 +31,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 let user;
-passport.use(new GoogleStrategy({clientID:process.env.CLIENT_ID,clientSecret:process.env.CLIENT_SECRET, callbackURL:"https://gmailserver-j0ib.onrender.com/auth/google/callback",passReqToCallback:true},async(request,accessToken,refreshToken,profile,done)=>{
+passport.use(new GoogleStrategy({clientID:process.env.CLIENT_ID,clientSecret:process.env.CLIENT_SECRET, callbackURL:
+    "http://localhost:8000/auth/google/callback"
+    // "https://gmailserver-j0ib.onrender.com/auth/google/callback"
+    ,passReqToCallback:true},async(request,accessToken,refreshToken,profile,done)=>{
     try {
         
         let newuser=await userExistCheck(profile)
