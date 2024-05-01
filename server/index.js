@@ -43,7 +43,6 @@ passport.serializeUser((user,done)=>{
 })
 
 passport.deserializeUser((user,done)=>{
-    c
     console.log('deserialise');
   
     done(null,user)});

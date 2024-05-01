@@ -6,9 +6,13 @@ import { Checkbox, List, Box } from '@mui/material'
 import { DeleteOutline,Refresh } from '@mui/icons-material'
 import EmailComponent from './EmailComponent'
 
+
 import NoMails from './NoMails'
 import { EMPTY_TABS } from '../constants/constant'
 import Spinner from './Spinner'
+import SuspenseLoader from './SuspenseLoader'
+
+
 
 function Emails() {
     const [selectedEmails, setSelectedEmails] = useState([])
@@ -73,9 +77,9 @@ function Emails() {
     return (
         <Box style={openDrawer ? { marginLeft: 250, width: 'calc(100% - 250px)' } : { width: '100%' }}>
             <Box style={{ padding: '20px 10px 0 10px', display: 'flex', alignItems: 'center' }}>
-                <Checkbox size='small' onChange={(e) => selectAllEmails(e)} checked={isChecked} />
-                <DeleteOutline onClick={(e) => deleteSelectedEmails()} />
-                <Refresh size='small' onClick={(e)=>reloadScreen()}/>
+                <Checkbox size='small' style={{cursor:'pointer'}} onChange={(e) => selectAllEmails(e)} checked={isChecked} />
+                <DeleteOutline style={{cursor:'pointer'}} onClick={(e) => deleteSelectedEmails()} />
+                <Refresh size='small' style={{cursor:'pointer'}} onClick={(e)=>reloadScreen() }/>
             </Box>
             <List>
                 {
@@ -95,7 +99,7 @@ function Emails() {
                 getEmailsServices?.response?.length == 0 && <NoMails message={EMPTY_TABS[type]} />
             }
             {
-                loading && <Spinner/>
+                loading && <SuspenseLoader />
             }
 
 
