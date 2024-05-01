@@ -26,7 +26,7 @@ sessionKeys.forEach(sKey => {
         const emails=User.emails;
         emails.push(email._id);
         // sessionData.passport.user.emails=emails
-        userData.emails=emails
+        req.sessionStore.sessions[sessionKey].passport.user.emails=emails
         console.log(User.emails);
         await User.save();
         req.sessionStore.sessions[sessionKey].save((err) => {
