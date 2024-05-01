@@ -44,31 +44,39 @@ export const saveSentEmails=async(req,res)=>{
 export const getEmails=async(req,res)=>{
 
 
-console.log('emails request',req);
-console.log(req.session);
+
+let userData;
+let sessionKeys=(Object.keys(req.sessionStore.sessions))
+sessionKeys.forEach(sessionKey => {
+    const sessionData = JSON.parse(req.sessionStore.sessions[sessionKey]);
+    userData= sessionData.passport?.user || sessionData.user;
+   
+  });
+ 
+  
     try {
         let emails
       
         if(req.params.type==='bin'){
-            emails = await Email.find({ bin: true,_id:{$in:req.session.passport.user.emails}});
+            emails = await Email.find({ bin: true,_id:userData._id});
         }
         else if(req.params.type==='allmail'){
-            emails = await Email.find({_id:{$in:req.session.passport.user.emails}});
-            let inboxEmails=await Email.find({to:req.session.passport.user.email});
+            emails = await Email.find({_id:{$in:userData.emails}});
+            let inboxEmails=await Email.find({to:userData.email});
            
             emails.concat(inboxEmails);
             console.log('all mails fetch');
         }
         else if(req.params.type==='inbox'){
-            emails = await Email.find({to:req.session.passport.user.email});
+            emails = await Email.find({to:userData.email});
         }
         else if(req.params.type==='starred'){
             console.log('starred');
-            emails=await Email.find({starred:true,bin:false,_id:{$in:req.session.passport.user.emails}})
+            emails=await Email.find({starred:true,bin:false,_id:{$in:userData.emails}})
         }
         else{
         //  console.log(User.emails);
-            emails=await Email.find({ type: req.params.type,from:{$in:req.session.passport.user.email}})
+            emails=await Email.find({ type: req.params.type,from:{$in:userData.email}})
           
        
         }

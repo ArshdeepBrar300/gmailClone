@@ -3,18 +3,24 @@ import dbConnection from './database/db.js'
 import cors from 'cors'
 import path from 'path'
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import OAuth2Strategy from 'passport-google-oauth2'
 import routes from "./routes/route.js";
+
 import { userExistCheck } from "./controller/userController.js";
 // import user from "./models/user.js";
 import cookieSession from "cookie-session";
+import { unstable_HistoryRouter } from "react-router-dom";
 
 const __dirname=path.resolve();
 const app=express();
 
 const PORT=process.env.PORT|| 8000;
 const GoogleStrategy=OAuth2Strategy.Strategy;
+
+
+
 app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(express.json({extended:true}))
@@ -22,18 +28,33 @@ app.use(express.json({extended:true}))
 app.use(session({secret:process.env.SESSION_SECRET, resave :false,
 saveUninitialized: false,
 expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-// cookie : {
-//     secure:false,
-//         maxAge:(1000 * 60 * 100)
-// }
+cookie : {
+    secure:false,
+        maxAge:(1000 * 60 * 60*24*7)
+}
  }),)
+ app.use(cookieParser());
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser((user,done)=>{
+    console.log(user);
+    console.log('deserialise');
+  
+    done(null,user);
+})
+
+passport.deserializeUser((user,done)=>{
+    console.log(user);
+    console.log('deserialise');
+  
+    done(null,user)});
+
+
 let user;
 passport.use(new GoogleStrategy({clientID:process.env.CLIENT_ID,clientSecret:process.env.CLIENT_SECRET, callbackURL:
-    "http://localhost:8000/auth/google/callback"
-    // "https://gmailserver-j0ib.onrender.com/auth/google/callback"
+   
+    "https://gmailserver-j0ib.onrender.com/auth/google/callback"
     ,passReqToCallback:true},async(request,accessToken,refreshToken,profile,done)=>{
     try {
         
@@ -46,16 +67,6 @@ passport.use(new GoogleStrategy({clientID:process.env.CLIENT_ID,clientSecret:pro
         return done(error,null)
     }
 }))
-passport.serializeUser((user,done)=>{
-  
-    done(null,user);
-})
-
-passport.deserializeUser((user,done)=>{
- 
-  
-    done(null,user)});
-
 
 
 
@@ -84,8 +95,10 @@ app.get("/logout", (req, res) => {
 });
 app.get("/login/success",async(req,res)=>{
     
-  
+  console.log(req.isAuthenticated);
+  console.log('success');
     if(user){
+        req.session.user = user;
         res.status(200).json({message:"user Login",user:user})
     }else{
         res.status(400).json({message:"Not Authorized"})

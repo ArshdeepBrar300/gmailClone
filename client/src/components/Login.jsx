@@ -58,8 +58,8 @@ function Login() {
         try {
 
             const response = await axios.get(
-                // "https://gmailserver-j0ib.onrender.com/login/success"
-                "http://localhost:8000/login/success"
+                "https://gmailserver-j0ib.onrender.com/login/success"
+              
             )
 
 
@@ -82,8 +82,8 @@ function Login() {
 
     }
     const loginWithGoogle = () => {
-        // `https://gmailserver-j0ib.onrender.com/auth/google`
-        window.open(`http://localhost:8000/auth/google`, '_self')
+     
+        window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
 
     }
 
