@@ -10,8 +10,6 @@ import routes from "./routes/route.js";
 
 import { userExistCheck } from "./controller/userController.js";
 // import user from "./models/user.js";
-import cookieSession from "cookie-session";
-import { unstable_HistoryRouter } from "react-router-dom";
 
 const __dirname=path.resolve();
 const app=express();

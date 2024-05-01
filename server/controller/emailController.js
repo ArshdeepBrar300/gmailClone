@@ -1,7 +1,7 @@
 
 import Email from "../models/email.js";
 import user from "../models/user.js";
-import currentUserId, { updateUser } from './userController.js'
+import  { updateUser } from './userController.js'
 
 
 
