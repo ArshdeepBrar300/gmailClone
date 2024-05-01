@@ -26,14 +26,14 @@ export const userExistCheck=async(profile)=>{
 
 }
 
-export const updateUser=async(req)=>{
+export const updateUser=async(userData)=>{
     console.log();
-    const updatedUser = await user.findById(req.user._id); 
+    const updatedUser = await user.findById(userData._id); 
 
 // Manually update the user object stored in the session
 req.login(updatedUser, function(err) {
   if (err) {
-    console.log('error',error);
+    console.log('error',err);
   } else {
     console.log('succesfully updated user');
   }

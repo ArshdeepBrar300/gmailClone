@@ -133,7 +133,7 @@ sessionKeys.forEach(sessionKey => {
     try {
         await Email.deleteMany({_id:{$in:req.body}});
         await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=>ObjectId(id))}}})
-        await updateUser(req);
+        await updateUser(userData);
         
         return res.status(200).json('Email deleted Successfully')
         
