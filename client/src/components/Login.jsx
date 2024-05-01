@@ -15,7 +15,7 @@ const Loginbtn = styled(Box)({
     alignItems: 'center',
     width: '20%',
     margin: '30px auto',
-
+    cursor: 'pointer',
     borderRadius: '10px',
     boxShadow: 2
 
@@ -59,8 +59,8 @@ function Login() {
         try {
 
             const response = await axios.get(
-                // "https://gmailserver-j0ib.onrender.com/login/success"
-                "http://localhost:8000/login/success"
+                "https://gmailserver-j0ib.onrender.com/login/success"
+                // "http://localhost:8000/login/success"
 
             )
 
@@ -85,8 +85,8 @@ function Login() {
     }
     const loginWithGoogle = () => {
 
-        // window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
-        window.open(`http://localhost:8000/auth/google`, '_self')
+        window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
+        // window.open(`http://localhost:8000/auth/google`, '_self')
 
     }
 

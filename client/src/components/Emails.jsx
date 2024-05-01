@@ -54,13 +54,14 @@ function Emails() {
     const deleteSelectedEmails = () => {
         if (type === 'bin') {
             deleteEmailService.call(selectedEmails)
-
+            reloadScreen()
 
         } else {
             moveEmailsToBinService.call(selectedEmails)
+            reloadScreen()
         }
         setChecked(false)
-        setRefreshScreen(prev => !prev)
+       
         setSelectedEmails([])
 
 

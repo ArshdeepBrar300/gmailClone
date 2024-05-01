@@ -36,14 +36,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user,done)=>{
-    console.log(user);
+   
     console.log('deserialise');
   
     done(null,user);
 })
 
 passport.deserializeUser((user,done)=>{
-    console.log(user);
+    c
     console.log('deserialise');
   
     done(null,user)});
@@ -52,8 +52,8 @@ passport.deserializeUser((user,done)=>{
 let user;
 passport.use(new GoogleStrategy({clientID:process.env.CLIENT_ID,clientSecret:process.env.CLIENT_SECRET, callbackURL:
    
-    // "https://gmailserver-j0ib.onrender.com/auth/google/callback"
-    "http://localhost:8000/auth/google/callback"
+    "https://gmailserver-j0ib.onrender.com/auth/google/callback"
+    // "http://localhost:8000/auth/google/callback"
     ,passReqToCallback:true},async(request,accessToken,refreshToken,profile,done)=>{
     try {
         
@@ -80,7 +80,7 @@ app.get("/auth/google/callback",passport.authenticate("google",{
 
 app.get("/logout", (req, res) => {
 
-    console.log('got logout req');
+    
     req.session.destroy(function() {
         res.clearCookie("connect.sid");
         user=null
@@ -94,8 +94,7 @@ app.get("/logout", (req, res) => {
 });
 app.get("/login/success",async(req,res)=>{
     
-  console.log(req.isAuthenticated);
-  console.log('success');
+ 
     if(user){
         req.session.user = user;
         res.status(200).json({message:"user Login",user:user})

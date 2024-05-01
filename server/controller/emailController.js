@@ -33,21 +33,21 @@ sessionKeys.forEach(sKey => {
         User.emails=emails
         console.log(User.emails);
         await User.save();
-        req.session.save((err) => {
-            if (err) {
+        // req.session.save((err) => {
+        //     if (err) {
             
-              console.error('Error saving session:', err);
-            } else {
-                console.log(req.sessionStore.sessions);
-                console.log(sessionKey);
-                console.log(req.sessionStore.sessions[sessionKey]);
-                console.log(req.sessionStore.sessions[sessionKey].passport?.user);
+        //       console.error('Error saving session:', err);
+        //     } else {
+        //         console.log(req.sessionStore.sessions);
+        //         console.log(sessionKey);
+        //         console.log(req.sessionStore.sessions[sessionKey]);
+        //         console.log(req.sessionStore.sessions[sessionKey].passport?.user);
                 
-                // req.sessionStore.sessions[sessionKey].user.emails.push(email._id)
-              console.log('Session data updated successfully');
+        //         // req.sessionStore.sessions[sessionKey].user.emails.push(email._id)
+        //       console.log('Session data updated successfully');
             
-            }
-          });
+        //     }
+        //   });
         res.status(200).json('Email saved successfully')
 
         
@@ -65,13 +65,15 @@ export const getEmails=async(req,res)=>{
 
 let userData;
 let sessionKeys=(Object.keys(req.sessionStore.sessions))
+
 sessionKeys.forEach(sessionKey => {
     const sessionData = JSON.parse(req.sessionStore.sessions[sessionKey]);
     userData= sessionData.passport?.user || sessionData.user;
    
   });
+
+  userData=await user.findById({_id:userData._id})
  
-  
     try {
         let emails
       
@@ -142,7 +144,7 @@ sessionKeys.forEach(sessionKey => {
    
   });
     try {
-        await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=>id)}}})
+        await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=> id)}}})
         // await updateUser(userData);
         await Email.deleteMany({_id:{$in:req.body}});
         
