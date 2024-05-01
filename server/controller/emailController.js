@@ -8,7 +8,8 @@ import currentUserId, { updateUser } from './userController.js'
 export const saveSentEmails=async(req,res)=>{
     try {
         const sessionData=req.session
-      
+      console.log(sessionData);
+      console.log(req);
         const User = await user.findById(req.user);
         
         const email=new Email(req.body)
@@ -42,8 +43,9 @@ export const saveSentEmails=async(req,res)=>{
 
 export const getEmails=async(req,res)=>{
 
-   
+
 console.log('emails request',req);
+console.log(req.session);
     try {
         let emails
       
