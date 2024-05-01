@@ -86,7 +86,7 @@ function Login() {
     const loginWithGoogle = () => {
 
         // window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
-        window.open(`https://localhost:8000/auth/google`, '_self')
+        window.open(`http://localhost:8000/auth/google`, '_self')
 
     }
 
