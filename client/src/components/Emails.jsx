@@ -3,8 +3,9 @@ import { API_URLS } from '../services/api.urls'
 import useApi from '../hooks/useApi'
 import { useOutletContext, useParams } from 'react-router-dom'
 import { Checkbox, List, Box } from '@mui/material'
-import { DeleteOutline } from '@mui/icons-material'
+import { DeleteOutline,Refresh } from '@mui/icons-material'
 import EmailComponent from './EmailComponent'
+
 import NoMails from './NoMails'
 import { EMPTY_TABS } from '../constants/constant'
 import Spinner from './Spinner'
@@ -64,12 +65,16 @@ function Emails() {
 
 
     }
+    const reloadScreen=(e)=>{
+        refreshScreen=!refreshScreen
+    }
     // console.log(getEmailsServices.response.emails);
     return (
         <Box style={openDrawer ? { marginLeft: 250, width: 'calc(100% - 250px)' } : { width: '100%' }}>
             <Box style={{ padding: '20px 10px 0 10px', display: 'flex', alignItems: 'center' }}>
                 <Checkbox size='small' onChange={(e) => selectAllEmails(e)} checked={isChecked} />
                 <DeleteOutline onClick={(e) => deleteSelectedEmails()} />
+                <Refresh onClick={(e)=>reloadScreen()}/>
             </Box>
             <List>
                 {

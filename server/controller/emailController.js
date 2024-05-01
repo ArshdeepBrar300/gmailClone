@@ -7,14 +7,18 @@ import  { updateUser } from './userController.js'
 
 export const saveSentEmails=async(req,res)=>{
     let userData,sessionKey
+
+ 
 let sessionKeys=(Object.keys(req.sessionStore.sessions))
 sessionKeys.forEach(sKey => {
     const sData = JSON.parse(req.sessionStore.sessions[sKey]);
-    if(sData.passport!=null)
+    if(sData.passport!=null || sData.user!=null)
     sessionKey=sKey
-    userData= sessionData.passport?.user || sessionData.user;
+    userData= sData.passport?.user || sData.user;
    
   });
+  console.log(sessionKey);
+  console.log(userData);
     try {
        
     
@@ -26,14 +30,20 @@ sessionKeys.forEach(sKey => {
         const emails=User.emails;
         emails.push(email._id);
         // sessionData.passport.user.emails=emails
-        req.sessionStore.sessions[sessionKey].passport.user.emails=emails
+        User.emails=emails
         console.log(User.emails);
         await User.save();
-        req.sessionStore.sessions[sessionKey].save((err) => {
+        req.session.save((err) => {
             if (err) {
             
               console.error('Error saving session:', err);
             } else {
+                console.log(req.sessionStore.sessions);
+                console.log(sessionKey);
+                console.log(req.sessionStore.sessions[sessionKey]);
+                console.log(req.sessionStore.sessions[sessionKey].passport?.user);
+                
+                // req.sessionStore.sessions[sessionKey].user.emails.push(email._id)
               console.log('Session data updated successfully');
             
             }
@@ -66,7 +76,7 @@ sessionKeys.forEach(sessionKey => {
         let emails
       
         if(req.params.type==='bin'){
-            emails = await Email.find({ bin: true,_id:userData._id});
+            emails = await Email.find({ bin: true,_id:{$in:userData.emails}});
         }
         else if(req.params.type==='allmail'){
             emails = await Email.find({_id:{$in:userData.emails}});
@@ -76,7 +86,7 @@ sessionKeys.forEach(sessionKey => {
             console.log('all mails fetch');
         }
         else if(req.params.type==='inbox'){
-            emails = await Email.find({to:userData.email});
+            emails = await Email.find({to:userData.email,bin: false});
         }
         else if(req.params.type==='starred'){
             console.log('starred');
@@ -132,9 +142,9 @@ sessionKeys.forEach(sessionKey => {
    
   });
     try {
+        await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=>id)}}})
+        // await updateUser(userData);
         await Email.deleteMany({_id:{$in:req.body}});
-        await  user.findOneAndUpdate({_id:userData._id},{$pull:{emails:{$in:req.body.map(id=>ObjectId(id))}}})
-        await updateUser(userData);
         
         return res.status(200).json('Email deleted Successfully')
         
