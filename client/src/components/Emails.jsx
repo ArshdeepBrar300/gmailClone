@@ -66,7 +66,7 @@ function Emails() {
 
     }
     const reloadScreen=(e)=>{
-        refreshScreen=!refreshScreen
+        setRefreshScreen(prev=>!prev)
     }
     // console.log(getEmailsServices.response.emails);
     return (
@@ -74,7 +74,7 @@ function Emails() {
             <Box style={{ padding: '20px 10px 0 10px', display: 'flex', alignItems: 'center' }}>
                 <Checkbox size='small' onChange={(e) => selectAllEmails(e)} checked={isChecked} />
                 <DeleteOutline onClick={(e) => deleteSelectedEmails()} />
-                <Refresh onClick={(e)=>reloadScreen()}/>
+                <Refresh size='small' onClick={(e)=>reloadScreen()}/>
             </Box>
             <List>
                 {

@@ -76,7 +76,7 @@ function EmailComponent({ email, selectedEmails, setRefreshScreen, setSelectedEm
                 </Typography>
                 <Indicator>Inbox</Indicator>
                 <Typography>{email.subject}
-                    {email.body && '-'}{email.body}</Typography>
+                    {email.body && '-'}{email.body.substr(0,25)}</Typography>
                 <Date>{(new window.Date(email.date)).getDate()}{(new window.Date(email.date)).toLocaleString('default', { month: 'long' })}</Date>
             </Box>
 
