@@ -6,17 +6,18 @@ import  { updateUser } from './userController.js'
 
 
 export const saveSentEmails=async(req,res)=>{
-    let userData;
+    let userData,sessionKey
 let sessionKeys=(Object.keys(req.sessionStore.sessions))
-sessionKeys.forEach(sessionKey => {
-    const sessionData = JSON.parse(req.sessionStore.sessions[sessionKey]);
+sessionKeys.forEach(sKey => {
+    const sData = JSON.parse(req.sessionStore.sessions[sKey]);
+    if(sData.passport!=null)
+    sessionKey=sKey
     userData= sessionData.passport?.user || sessionData.user;
    
   });
     try {
-        const sessionData=req.session
-      console.log(sessionData);
-      console.log(req);
+       
+    
         const User = await user.findById(userData._id);
         
         const email=new Email(req.body)
@@ -26,9 +27,9 @@ sessionKeys.forEach(sessionKey => {
         emails.push(email._id);
         // sessionData.passport.user.emails=emails
         userData.emails=emails
-        // console.log(User.emails);
+        console.log(User.emails);
         await User.save();
-        req.session.save((err) => {
+        req.sessionStore.sessions[sessionKey].save((err) => {
             if (err) {
             
               console.error('Error saving session:', err);
@@ -91,7 +92,7 @@ sessionKeys.forEach(sessionKey => {
         return res.status(200).json({emails})
         
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         res.status(500).json(error.message)
         
     }
@@ -104,7 +105,7 @@ export const moveEmailsToBin=async(req,res)=>{
         return res.status(200).json('Emails Sent to Bin')
         
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         res.status(500).json(error.message)
         
     }
@@ -116,7 +117,7 @@ export const toggleStarredEmails=async(req,res)=>{
 
         
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         res.status(500).json(error.message)
         
     }
@@ -138,7 +139,7 @@ sessionKeys.forEach(sessionKey => {
         return res.status(200).json('Email deleted Successfully')
         
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         res.status(500).json(error.message)
         
     }
