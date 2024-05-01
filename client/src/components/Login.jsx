@@ -32,7 +32,7 @@ const IconWrapper = styled(Box)({
     padding: 4,
     display: 'flex',
     justifyContent: 'center',
-    cursor:'pointer',
+    cursor: 'pointer',
     alignItems: 'center',
     '& > img': {
         width: '40px',
@@ -60,8 +60,8 @@ function Login() {
 
             const response = await axios.get(
                 // "https://gmailserver-j0ib.onrender.com/login/success"
-                "https://localhost:8000/login/success"
-              
+                "http://localhost:8000/login/success"
+
             )
 
 
@@ -84,7 +84,7 @@ function Login() {
 
     }
     const loginWithGoogle = () => {
-     
+
         // window.open(`https://gmailserver-j0ib.onrender.com/auth/google`, '_self')
         window.open(`https://localhost:8000/auth/google`, '_self')
 
